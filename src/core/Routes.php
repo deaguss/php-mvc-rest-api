@@ -2,42 +2,21 @@
 
 class Routes
 {
-    private $controllerFile = 'DefaultApp';
-    private $controllerMethod = 'index';
-
-    private $parameter = [];
 
     public function run()
     {
-        $url = $this->getUrl();
-        if ($url && file_exists(__DIR__ . '/../controllers/' . $url[0] . '.php')) {
-            $this->controllerFile = $url[0];
-            unset($url[0]);
-        }
+        $router = new App();
+        $router->setDefaultController('DefaultApp');
+        $router->setDefaultMethod('index');
 
-        require_once __DIR__ . '/../controllers/' . $this->controllerFile . '.php';
-        $this->controllerFile = new $this->controllerFile;
+        $router->get('/barang', ['Barang', 'index']);
+        $router->get('/barang/index', ['Barang', 'index']);
+        $router->get('/barang/insert', ['Barang', 'insert']);
+        $router->get('/barang/edit', ['Barang', 'edit']);
 
-        if (isset($url[1])) {
-            if (method_exists($this->controllerFile, $url[1])) {
-                $this->controllerMethod = $url[1];
-                unset($url[1]);
-            }
-        }
+        $router->post('/barang/insert_barang', ['Barang', 'insert_barang']);
+        $router->post('/barang/update_barang', ['Barang', 'update_barang']);
 
-        if (!empty($url)) {
-            $this->parameter = array_values($url);
-        }
-
-        call_user_func_array([$this->controllerFile, $this->controllerMethod], $this->parameter);
-    }
-
-    private function getUrl()
-    {
-        $url = rtrim($_SERVER['QUERY_STRING'], '/');
-        $url = filter_var($url, FILTER_SANITIZE_URL);
-        $url = explode('/', $url);
-
-        return $url;
+        $router->run();
     }
 }
