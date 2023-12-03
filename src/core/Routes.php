@@ -17,6 +17,8 @@ class Routes
         $router->post('/barang/insert_barang', ['Barang', 'insert_barang']);
         $router->post('/barang/update_barang', ['Barang', 'update_barang']);
 
+        $router->get('/kategori', ['Kategori', 'index']);
+
         $router->run();
     }
 }

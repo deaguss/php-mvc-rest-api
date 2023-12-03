@@ -1,15 +1,15 @@
 <?php
 
-class DefaultApp extends BaseController
+class Kategori extends BaseController
 {
     public function index()
     {
         $data = [
-            'title' => 'Home',
+            'title' => 'Kategori',
         ];
         $this->view('template/header', $data);
         $this->view('template/sidebar', $data);
-        $this->view('home/index', $data);
+        $this->view('kategori/index', $data);
         $this->view('template/js', $data);
     }
 }

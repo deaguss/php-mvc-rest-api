@@ -1,11 +1,17 @@
 <?php
 
-class Barang
+class Barang extends BaseController
 {
 
     public function index()
     {
-        echo "Index from barang";
+        $data = [
+            'title' => 'Barang',
+        ];
+        $this->view('template/header', $data);
+        $this->view('template/sidebar', $data);
+        $this->view('barang/index', $data);
+        $this->view('template/js', $data);
     }
 
     public function edit($id)

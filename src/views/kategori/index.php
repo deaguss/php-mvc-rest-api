@@ -1,0 +1,1 @@
+<h1>view from kategori index</h1>
