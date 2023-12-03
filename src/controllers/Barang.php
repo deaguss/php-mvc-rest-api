@@ -34,6 +34,11 @@ class Barang extends BaseController
         $this->view('template/js');
     }
 
+    public function insert_barang()
+    {
+        var_dump($_POST);
+    }
+
     public function edit($id)
     {
         echo "Edit from barang {$id}";
