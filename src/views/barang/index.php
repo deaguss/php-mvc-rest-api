@@ -34,8 +34,8 @@
                         <td><?= $row['harga_satuan'] ?></td>
                         <td><?= $row['expire_date'] ?></td>
                         <td>
-                            <button>Edit</button>
-                            <button>Delete</button>
+                            <a href="<?= BASE_URL . '/barang/edit/' . $row['barang_id'] ?>">Edit</a>
+                            <a>Delete</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

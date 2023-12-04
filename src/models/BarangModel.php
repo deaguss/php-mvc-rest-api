@@ -23,4 +23,25 @@ class BarangModel extends Database
         $data['expire_date']    
       ]);
     }
+
+    public function getById($id){
+        $query = 'SELECT * FROM barang WHERE barang_id = ?';
+        return $this->qry($query, [$id])->fetch();
+    }
+
+    public function update($data){
+        $query = "UPDATE barang SET nama_barang = ?, jumlah = ?, harga_satuan = ?, expire_date = ? WHERE barang_id = ?";
+        return $this->qry($query, [
+            $data['nama_barang'],
+            $data['jumlah'],
+            $data['harga_satuan'],
+            $data['expire_date'],
+            $data['id']
+        ]);
+    }
+
+    public function delete($id){
+        $query = 'DELETE FROM barang WHERE barang_id = ?';
+        return $this->qry($query, [$id]);
+    }
 }
