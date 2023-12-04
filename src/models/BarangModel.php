@@ -12,4 +12,15 @@ class BarangModel extends Database
         $query = "SELECT * FROM barang";
         return $this->qry($query)->fetchAll();
     }
+
+    public function insert($data)
+    {
+      $query = "INSERT INTO barang (nama_barang, jumlah, harga_satuan, expire_date) VALUES (?, ?, ?, ?)";
+      return $this->qry($query, [
+        $data['nama_barang'],
+        $data['jumlah'],
+        $data['harga_satuan'],
+        $data['expire_date']    
+      ]);
+    }
 }

@@ -1,3 +1,7 @@
+<?php
+    Message::flash();
+?>
+
 <div class="container">
     <div class="header">
         <h2>Data Barang</h2>

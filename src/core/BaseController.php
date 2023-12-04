@@ -1,6 +1,6 @@
 <?php
 
-class BaseController
+class BaseController extends Filter
 {
 
     public function view($view, $data = [])
@@ -13,7 +13,7 @@ class BaseController
 
     public function redirect($url)
     {
-        header('Location: ' . $url);
+        header('Location: ' . BASE_URL. '/' . $url);
         exit;
     }
 

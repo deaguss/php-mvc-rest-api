@@ -27,11 +27,12 @@ class Filter
         // Menjalankan proses sanitasi pada data input
         $inputs = $sanitize->sanitize($data, $sanitization);
 
-        // Contoh penggunaan validasi (belum diimplementasikan)
-        // $validate = new Validation();
-        // $errors = $validate->validate($inputs, $validation, $messages);
+        // Contoh penggunaan validasi dengan objek Validation
+        $validate = new Validation();
+        // Memvalidasi data input
+        $errors = $validate->validate($inputs, $validation, $messages);
 
-        // Mengembalikan data yang telah disanitasi
-        return [$inputs];
+        // Mengembalikan data yang telah disanitasi dan validasi
+        return [$inputs, $errors];
     }
 }
