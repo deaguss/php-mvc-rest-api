@@ -31,11 +31,11 @@ class Database
     protected function setConnection()
     {
         try {
-            $host = DB_HOST;
-            $db = DB_NAME;
-            $user = DB_USER;
-            $pass = DB_PASS;
-            $port = DB_PORT;
+            $host = getenv('DB_HOST');
+            $db = getenv('DB_NAME');
+            $user = getenv('DB_USER');
+            $pass = getenv('DB_PASS');
+            $port = getenv('DB_PORT');
 
             // Membuat objek PDO untuk koneksi database
             $conn  = new PDO("mysql:host=$host;dbname=$db;port=$port", $user, $pass);
