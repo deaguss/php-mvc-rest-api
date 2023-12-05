@@ -1,5 +1,7 @@
 <?php
 
+namespace MyApp\Core; 
+
 class App
 {
     // Properti untuk menyimpan default controller dan method

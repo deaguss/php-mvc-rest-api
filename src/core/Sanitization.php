@@ -1,4 +1,8 @@
 <?php
+
+namespace MyApp\Core;    
+
+
 class Sanitization
 {
     // Konstanta yang menyimpan jenis-jenis filter untuk sanitasi data

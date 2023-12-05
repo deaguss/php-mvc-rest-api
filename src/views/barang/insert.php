@@ -1,5 +1,7 @@
 <?php 
 
+use MyApp\Core\Message;
+
 $data = Message::getData();
 $namaBarang = "";
 $jumlah = "";

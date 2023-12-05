@@ -1,5 +1,7 @@
 <?php
 
+use MyApp\Core\BaseController;
+
 class Kategori extends BaseController
 {
     public function index()

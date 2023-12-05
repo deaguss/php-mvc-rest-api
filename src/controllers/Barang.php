@@ -1,5 +1,8 @@
 <?php
 
+use MyApp\Core\BaseController;
+use MyApp\Core\Message;
+
 class Barang extends BaseController
 {
 

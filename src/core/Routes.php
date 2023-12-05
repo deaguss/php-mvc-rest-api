@@ -1,5 +1,7 @@
 <?php
 
+namespace MyApp\Core;    
+
 class Routes
 {
 

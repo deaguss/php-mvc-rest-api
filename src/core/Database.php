@@ -1,5 +1,9 @@
 <?php
 
+namespace MyApp\Core;
+
+use PDO, PDOException;
+
 class Database
 {
     // Private property untuk menyimpan koneksi database

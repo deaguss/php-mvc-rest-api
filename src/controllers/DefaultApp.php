@@ -1,5 +1,7 @@
 <?php
 
+use MyApp\Core\BaseController;
+
 class DefaultApp extends BaseController
 {
     public function index()

@@ -1,5 +1,8 @@
 <?php
 
+namespace MyApp\Core;    
+
+
 // Ini adalah class Routes yang bertanggung jawab untuk mengatur routing dalam aplikasi web.
 
 class Routes
