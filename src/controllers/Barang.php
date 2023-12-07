@@ -13,16 +13,61 @@ class Barang extends BaseController
         $this->barangModel = $this->model('BarangModel');
     }
 
-    public function index()
+    public function index($id = null)
     {
+      if($id == null){
+        try {
+          $data = $this->barangModel->getAll();
+        } catch (\Exception $e) {
+          $data = [
+            'status' => '500',
+            'error' => '500',
+            'message' => 'Something went wrong',
+            'data' => null
+          ];
+        $this -> view('template/header');
+        header('HTTP/1.1 500 Internal Server Error');
+        echo json_encode($data);
+        exit();
+        }
+      }else{
+        try {
+          $data = $this->barangModel->getById($id);
+        } catch (\Exception $e) {
+          $data = [
+            'status' => '500',
+            'error' => '500',
+            'message' => 'Something went wrong',
+            'data' => null
+          ];
+        $this -> view('template/header');
+        header('HTTP/1.1 500 Internal Server Error');
+        echo json_encode($data);
+        exit();
+        }
+      }
+
+      if($data){
         $data = [
-            'title' => 'Barang',
-            'getAllBarang' => $this->barangModel->getAll()
+          'status' => '200',
+          'error' => null,
+          'message' => 'Data ditemukan',
+          'data' => $data
         ];
-        $this->view('template/header', $data);
-        $this->view('template/sidebar', $data);
-        $this->view('barang/index', $data);
-        $this->view('template/js');
+      $this -> view('template/header');
+      header('HTTP/1.1 200 OK');
+      echo json_encode($data);
+      }else{
+        $data = [
+          'status' => '404',
+          'error' => null,
+          'message' => 'Data tidak ditemukan',
+          'data' => null
+        ];
+      $this -> view('template/header');
+      header('HTTP/1.1 404 Not Found');
+      echo json_encode($data);
+      }
     }
 
     public function insert()

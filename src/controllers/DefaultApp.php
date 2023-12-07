@@ -9,11 +9,13 @@ class DefaultApp extends BaseController
     public function index()
     {
         $data = [
-            'title' => 'Home',
+            'status' => '404',
+            'error' => '404',
+            'message' => 'Page Not Found',
+            'data' => null
         ];
-        $this->view('template/header', $data);
-        $this->view('template/sidebar', $data);
-        $this->view('home/index', $data);
-        $this->view('template/js', $data);
+        $this->view('template/header');
+        header('HTTP/1.1 404 Not Found');
+        echo json_encode($data);
     }
 }
