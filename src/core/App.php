@@ -11,10 +11,12 @@ class App
     // Properti untuk menyimpan parameter dari URL
     private $parameter = [];
 
-    // Konstanta untuk metode HTTP default (GET dan POST)
+    // Konstanta untuk metode HTTP default (GET, POST, PUT, PATCH, AND DELETE)
     private const DEFAULT_GET = 'GET';
     private const DEFAULT_POST = 'POST';
-
+    private const DEFAULT_PUT = 'PUT';
+    private const DEFAULT_PATCH = 'PATCH';
+    private const DEFAULT_DELETE = 'DELETE';
     // Array untuk menyimpan handler (URL dan callback) berdasarkan metode HTTP
     private $handlers = [];
 
@@ -31,15 +33,29 @@ class App
     }
 
     // Metode untuk menambahkan handler untuk metode HTTP GET
-    public function get($url, $callback)
+    public function get($uri, $callback)
     {
-        $this->setHandler(self::DEFAULT_GET, $url, $callback);
+        $this->setHandler(self::DEFAULT_GET, $uri, $callback);
     }
 
     // Metode untuk menambahkan handler untuk metode HTTP POST
-    public function post($url, $callback)
+    public function post($uri, $callback)
     {
-        $this->setHandler(self::DEFAULT_POST, $url, $callback);
+        $this->setHandler(self::DEFAULT_POST, $uri, $callback);
+    }
+
+    public function put($uri, $callback)
+    {
+        $this->setHandler(self::DEFAULT_PUT, $uri, $callback);
+    }
+
+    public function delete($uri, $callback)
+    {
+        $this->setHandler(self::DEFAULT_DELETE, $uri, $callback);
+    }
+    public function patch($uri, $callback)
+    {
+        $this->setHandler(self::DEFAULT_PATCH, $uri, $callback);
     }
 
     // Metode untuk menetapkan handler
@@ -52,6 +68,9 @@ class App
         ];
     }
 
+
+
+
     // Metode untuk menjalankan aplikasi
     public function run()
     {
@@ -62,36 +81,58 @@ class App
 
         // Iterasi melalui handler untuk mencocokkan URL dan metode HTTP
         foreach ($this->handlers as $handler) {
-            // Memproses path dan URL
-            $path = explode('/', ltrim(rtrim($handler['path'], '/'), '/'));
-            $keyPath = (isset($path[0]) ? $path[0] : '') . (isset($path[1]) ? $path[1] : '');
-            $keyUrl = (isset($url[0]) ? $url[0] : '') . (isset($url[1]) ? $url[1] : '');
-
-            // Memeriksa kesamaan URL, path, dan metode HTTP
-            if ($url != "" && $keyUrl == $keyPath && $requestMethod == $handler['method']) {
-                // Memeriksa eksistensi file controller
-                if (isset($handler['handler'][0]) && file_exists(__DIR__ . '/../controllers/' . $handler['handler'][0] . '.php')) {
-                    $this->controllerFile = $handler['handler'][0];
-                    unset($url[0]);
+            $path = explode('/', rtrim(ltrim($handler['path'], '/'), '/'));
+            $new_path = [];
+            $new_url = [];
+            $param = [];
+            $paramURL = [];
+            if (count($path) == count($url)) {
+              foreach ($path as $value) {
+                if (!str_contains($value, ':')) {
+                  array_push($new_path, $value);
+                } else {
+                  array_push($param, $value);
                 }
-
-                // Memuat file controller dan membuat objek controller
-                require_once __DIR__ . '/../controllers/' . $this->controllerFile . '.php';
-                $this->controllerFile = new $this->controllerFile;
-                $execute = 1;
-
-                // Memeriksa eksistensi method pada controller
-                if (isset($handler['handler'][1]) && method_exists($this->controllerFile, $handler['handler'][1])) {
-                    $this->controllerMethod = $handler['handler'][1];
-                    unset($url[1]);
+              }
+      
+              if (str_contains(implode("/", $url), implode("/", $new_path))) {
+      
+                for ($i = 0; $i < count($url); $i++) {
+                  if ($i < count($new_path)) {
+                    array_push($new_url, $url[$i]);
+                  } else {
+                    array_push($paramURL, $url[$i]);
+                  }
                 }
+      
+                if (
+                  implode('/', $new_path) == implode('/', $new_url) &&
+                  count($param) == count($paramURL) &&
+                  $requestMethod == $handler['method']
+                ) {
+                    if (isset($handler['handler'][0]) && file_exists(__DIR__ . '/../controllers/' . $handler['handler'][0] . '.php')) {
+                        $this->controllerFile = $handler['handler'][0];
+                    }
+    
+                    // Memuat file controller dan membuat objek controller
+                    require_once __DIR__ . '/../controllers/' . $this->controllerFile . '.php';
+                    $this->controllerFile = new $this->controllerFile;
+                    $execute = 1;
+    
+                    // Memeriksa eksistensi method pada controller
+                    if (isset($handler['handler'][1]) && method_exists($this->controllerFile, $handler['handler'][1])) {
+                        $this->controllerMethod = $handler['handler'][1];
+                    }
+
+                    $url = $paramURL;
+                }
+              }
             }
-        }
-
+      
         // Menjalankan default controller jika tidak ada handler yang cocok
         if ($execute == 0) {
-            require_once __DIR__ . '/../controllers/' . $this->controllerFile . '.php';
-            $this->controllerFile = new $this->controllerFile;
+            $defaultAppController = new \MyApp\Controllers\DefaultApp;
+            $this->controllerFile = $defaultAppController;
         }
 
         // Menyimpan parameter sisa URL
@@ -101,6 +142,7 @@ class App
 
         // Memanggil method pada controller dengan parameter
         call_user_func_array([$this->controllerFile, $this->controllerMethod], $this->parameter);
+        }
     }
 
     // Metode untuk mendapatkan URL

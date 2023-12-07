@@ -1,5 +1,7 @@
 <?php
 
+namespace MyApp\Controllers;
+
 use MyApp\Core\BaseController;
 
 class DefaultApp extends BaseController
