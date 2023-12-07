@@ -1,6 +1,6 @@
 <?php
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE');
-header('Access-Control-Allow-Headers: content-type, Authorization, access-control-allow-headers');
-header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header('content-type: application/json');
+header("Access-Control-Allow-Methods: PUT, PATCH, DELETE, GET, POST");
+header("Access-Control-Allow-Headers: Authorization, Origin, X-Requested-With, Content-Type, Accept");
