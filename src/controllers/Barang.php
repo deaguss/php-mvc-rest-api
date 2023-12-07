@@ -204,4 +204,49 @@ class Barang extends BaseController
         }
       }
     }
+
+    public function delete($id = null)
+    {
+        if ($id == null) {
+          $data = [
+            'status' => '404',
+            'error' => '404',
+            'message' => 'Data tidak ditemukan',
+            'data' => null
+          ];
+          $this->view('template/header');
+          header('HTTP/1.0 404 Not Found');
+          echo json_encode($data);
+          exit();
+        } else {
+          $proc = $this->barangModel->delete($id);
+          if ($proc->rowCount() > 0) {
+            $data = [
+              'status' => '200',
+              'error' => null,
+              'message' => 'Data berhasil dihapus',
+              'data' => [
+                'barang_id' => $id
+              ]
+            ];
+            $this->view('template/header');
+            header('HTTP/1.0 200 OK');
+            echo json_encode($data);
+            exit();
+          } else {
+            $data = [
+              'status' => '404',
+              'error' => '404',
+              'message' => 'Data tidak ditemukan',
+              'data' => [
+                'barang_id' => $id
+              ]
+            ];
+            $this->view('template/header');
+            header('HTTP/1.0 404 Not Found');
+            echo json_encode($data);
+            exit();
+          }
+        }
+    }
 }
