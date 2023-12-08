@@ -1,6 +1,6 @@
 <?php
 
-namespace MyApp\Core; 
+namespace MyApp\Core;
 
 class App
 {
@@ -117,6 +117,7 @@ class App
                     // Memuat file controller dan membuat objek controller
                     require_once __DIR__ . '/../controllers/' . $this->controllerFile . '.php';
                     $this->controllerFile = new $this->controllerFile;
+                    
                     $execute = 1;
     
                     // Memeriksa eksistensi method pada controller

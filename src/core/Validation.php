@@ -2,6 +2,7 @@
 
 namespace MyApp\Core;    
 
+use MyApp\Models\UniqueModel;
 
 class Validation
 {
@@ -175,7 +176,13 @@ class Validation
     // Fungsi validasi: Memeriksa apakah nilai suatu field unik dalam tabel database
     public function is_unique(array $data, string $field, string $table, string $column): bool
     {
-        return false; // belum diimplementasikan
+        if (!isset($data[$field])) {
+            return true;
+          }
+          // disini cek ke database
+          $uniqueModel = new UniqueModel();
+          $stmt = $uniqueModel->check($table, $column, $data[$field]);
+          return $stmt->fetchColumn() === false;
     }
 
     

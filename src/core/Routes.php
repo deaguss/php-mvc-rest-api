@@ -19,7 +19,8 @@ class Routes
 
         $router->get('/kategori', ['Kategori', 'index']);
 
-        
+        $router->post('/register', ['Authentication', 'register']);
+        $router->post('/login', ['Authentication', 'login']);
 
         $router->run();
     }

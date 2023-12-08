@@ -1,5 +1,6 @@
 <?php
 
+namespace MyApp\Models;
 use MyApp\Core\Database;    
 
 
