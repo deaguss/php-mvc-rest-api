@@ -1,53 +1,64 @@
-<?php 
-
+<?php
 use MyApp\Core\Message;
 
 $data = Message::getData();
 if ($data) {
-  $getBarang['nama_barang'] = $data['nama_barang'];
-  $getBarang['jumlah'] = $data['jumlah'];
-  $getBarang['harga_satuan'] = $data['harga_satuan'];
-  $getBarang['expire_date'] = $data['expire_date'];
+  $barang['nama_barang'] = $data['nama_barang'];
+  $barang['jumlah'] = $data['jumlah'];
+  $barang['harga_satuan'] = $data['harga_satuan'];
+  $barang['expire_date'] = $data['kadaluarsa'];
 }
-
-Message::flash()
-
+Message::flash();
 ?>
-
-<div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
-    <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
-        <h1>Edit Barang <?= $getBarang['nama_barang'] ?></h1>
-    </div>
-    <div class="formbg-outer">
-        <div class="formbg">
-            <div class="formbg-inner padding-horizontal--48">
-                <form id="form" action="<?= BASE_URL . '/barang/update_barang' ?>" id="stripe-login" method="post">
-                <!-- status -->
-                    <input type="hidden" name="id" value="<?= $getBarang['barang_id'] ?>">
-                    <input type="hidden" id="mode" name="mode" value="update">
-
-                    <div class="field padding-bottom--24">
-                        <label for="nama">Name</label>
-                        <input type="text" name="nama_barang" value="<?= $getBarang['nama_barang'] ?>">
-                    </div>
-                    <div class="field padding-bottom--24">
-                        <label for="jumlah">Jumlah</label>
-                        <input type="number" name="jumlah" value="<?= $getBarang['jumlah'] ?>">
-                    </div>
-                    <div class="field padding-bottom--24">
-                        <label for="harga_satuan">Harga Satuan</label>
-                        <input type="number" name="harga_satuan" value="<?= $getBarang['harga_satuan'] ?>">
-                    </div>
-                    <div class="field padding-bottom--24">
-                        <label for="expire_date">Kadaluarsa</label>
-                        <input type="date" name="expire_date" value="<?= $getBarang['expire_date'] ?>"    >
-                    </div>
-                    <div class="field padding-bottom--24">
-                        <button onclick="edit('update')" type="button">Edit</button>
-                        <button onclick="edit('delete')" type="button">Delete</button>
-                    </div>
-                </form>
-            </div>
+<div class="row">
+  <div class="container col-50">
+    <h2 class="header">Input Barang</h2>
+    <form id="form" action="<?= BASEURL . '/barang/edit_data' ?>" method="post">
+      <input type="hidden" name="id" value="<?= $barang['barang_id'] ?>">
+      <input type="hidden" id="mode" name="mode" value="update">
+      <div class="row">
+        <div class="col-25">
+          <label for="nama_barang">Nama Barang</label>
         </div>
-    </div>
+        <div class="col-50">
+          <input type="text" id="nama_barang" name="nama_barang" value="<?= $barang['nama_barang'] ?>">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="jumlah">Jumlah</label>
+        </div>
+        <div class="col-25">
+          <input type="number" id="jumlah" name="jumlah" value="<?= $barang['jumlah'] ?>">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="harga_satuan">Harga Satuan</label>
+        </div>
+        <div class="col-25">
+          <input type="number" id="harga_satuan" name="harga_satuan" value="<?= $barang['harga_satuan'] ?>">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="kadaluarsa">Tanggal Kadaluarsa</label>
+        </div>
+        <div class="col-25">
+          <input type="date" id="kadaluarsa" name="kadaluarsa" value="<?= $barang['expire_date'] ?>">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">&nbsp;</div>
+        <div class="col-75">
+          <button onclick="edit('update')" type="button" class="btn primary">
+            <i class="fa-solid fa-pen-to-square"></i> Edit
+          </button>
+          <button onclick="edit('delete')" type="button" class="btn danger">
+            <i class="fa-solid fa-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

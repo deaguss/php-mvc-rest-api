@@ -1,11 +1,12 @@
 <?php
-
 namespace MyApp\Models;
 
 use MyApp\Core\Database;
 use PDO;
-class AuthModel extends Database {
-    public function __construct()
+
+class AutentikasiModel extends Database
+{
+  public function __construct()
   {
     parent::__construct();
     $this->setTableName('auth');
@@ -15,7 +16,7 @@ class AuthModel extends Database {
     ]);
   }
 
-  public function register($data)
+  public function insert($data)
   {
     $table = [
       'email' => $data['email'],
@@ -24,8 +25,8 @@ class AuthModel extends Database {
     return $this->insertData($table);
   }
 
-//   public function getByEmail($email)
-//   {
-//     return $this->get(['email' => $email])->fetch(PDO::FETCH_ASSOC);
-//   }
+  public function getByEmail($email)
+  {
+    return $this->get(['email' => $email])->fetch(PDO::FETCH_ASSOC);
+  }
 }

@@ -1,5 +1,6 @@
 <?php
 
+
 namespace MyApp\Core;
 
 use MyApp\Core\Sanitization;
@@ -7,37 +8,39 @@ use MyApp\Core\Validation;
 
 class Filter
 {
-    public function filter(
-        array $data,
-        array $fields,
-        array $messages = []
-    ): array {
-        $sanitization = [];
-        $validation = [];
+  // Metode filter menerima data, aturan sanitasi, aturan validasi, dan pesan kustom
+  public function filter(array $data, array $fields, array $messages = []): array
+  {
+    // Inisialisasi array untuk sanitasi dan validasi
+    $sanitization = [];
+    $validation = [];
 
-        // Memisahkan aturan sanitasi dan validasi untuk setiap field
-        foreach ($fields as $field => $rules) {
-            if (strpos($rules, '|')) {
-                // Jika terdapat '|' dalam aturan, pisahkan aturan sanitasi dan validasi
-                [$sanitization[$field], $validation[$field]] = explode('|', $rules, 2);
-            } else {
-                // Jika tidak terdapat '|', gunakan aturan sanitasi saja
-                $sanitization[$field] = $rules;
-            }
-        }
-
-        // Membuat objek Sanitization untuk melakukan proses sanitasi
-        $sanitize = new Sanitization();
-
-        // Menjalankan proses sanitasi pada data input
-        $inputs = $sanitize->sanitize($data, $sanitization);
-
-        // Contoh penggunaan validasi dengan objek Validation
-        $validate = new Validation();
-        // Memvalidasi data input
-        $errors = $validate->validate($inputs, $validation, $messages);
-
-        // Mengembalikan data yang telah disanitasi dan validasi
-        return [$inputs, $errors];
+    // Iterasi melalui aturan-aturan untuk setiap field
+    foreach ($fields as $field => $rules) {
+      // Memeriksa apakah aturan sanitasi dan validasi dipisahkan oleh karakter '|'
+      if (strpos($rules, '|')) {
+        // Jika ya, pecah aturan menjadi sanitasi dan validasi
+        [$sanitization[$field], $validation[$field]] = explode('|', $rules, 2);
+      } else {
+        // Jika tidak, aturan hanya untuk sanitasi
+        $sanitization[$field] = $rules;
+      }
     }
+
+    // Membuat objek Sanitization
+    $sanitize = new Sanitization();
+
+    // Melakukan sanitasi terhadap data menggunakan aturan sanitasi
+    $inputs = $sanitize->sanitize($data, $sanitization);
+
+    // Membuat objek Validation
+    $validate = new Validation();
+
+    // Melakukan validasi terhadap data yang sudah disanitasi
+    // Mengembalikan array hasil sanitasi dan array pesan kesalahan validasi
+    $errors = $validate->validate($inputs, $validation, $messages);
+
+    // Mengembalikan array hasil sanitasi dan array pesan kesalahan validasi
+    return [$inputs, $errors];
+  }
 }

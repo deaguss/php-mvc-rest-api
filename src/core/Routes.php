@@ -1,27 +1,28 @@
 <?php
-
-namespace MyApp\Core;    
+namespace MyApp\Core;
 
 class Routes
 {
+  public function run()
+  {
+    $router = new App();
+    $router->setDefaultController('DefaultApp');
+    $router->setDefaultMethod('index');
+    $router->setNamespace('MyApp\Controllers');
 
-    public function run()
-    {
-        $router = new App();
-        $router->setDefaultController('DefaultApp');
-        $router->setDefaultMethod('index');
-        
-        $router->get('/barang', ['Barang', 'index']);
-        $router->get('/barang/(:id)', ['Barang', 'index']);
-        $router->patch('/barang/(:id)', ['Barang', 'edit']);
-        $router->post('/barang', ['Barang', 'insert']);
-        $router->delete('/barang/(:id)', ['Barang','delete']);
+    $router->get('/barang', ['BarangController', 'index']);
+    $router->get('/barang/(:id)', ['BarangController', 'index']);
+    $router->put('/barang/(:id)', ['BarangController', 'edit']);
+    $router->post('/barang', ['BarangController', 'insert']);
+    $router->delete('/barang/(:id)', ['BarangController', 'delete']);
 
-        $router->get('/kategori', ['Kategori', 'index']);
+    $router->post('/register', ['AutentikasiController', 'register']);
+    $router->post('/login', ['AutentikasiController', 'login']);
+    $router->get('/refresh', ['AutentikasiController', 'refreshToken']);
 
-        $router->post('/register', ['Authentication', 'register']);
-        $router->post('/login', ['Authentication', 'login']);
+    $router->get('/kategori', ['KategoriController', 'index']);
 
-        $router->run();
-    }
+
+    $router->run();
+  }
 }

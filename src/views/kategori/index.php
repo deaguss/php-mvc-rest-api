@@ -1,1 +1,1 @@
-<h1>view from kategori index</h1>
+<h1>Hello from view kategori</h1>
